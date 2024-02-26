@@ -90,8 +90,7 @@ jobs:
           input:
             ${{ env.DEPLOYMENT_MANIFEST_PATH }}/hello-world-deployment.yaml
           output:
-            hello-world-deployment.yaml
-        
+            hello-world-deployment.yaml 
           
       - name: Deploys application
         uses: Azure/k8s-deploy@v4
