@@ -44,7 +44,7 @@ jobs:
         uses: docker/build-push-action@v5.1.0
         with:
           push: true
-          tags: ${{ env.AZURE_CONTAINER_REGISTRY }}/${{  env.CONTAINER_NAME  }}:${{  github.sha  }}
+          tags: ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}
           file: ./Dockerfile 
 
   deploy:
@@ -69,11 +69,13 @@ jobs:
           tenant-id: ${{ env.AZURE_TENANT_ID }}
           subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Setup kubelogin
-        uses: Azure/use-kubelogin@v1.2
+      - name: Set up kubelogin for non-interactive login
+        uses: azure/use-kubelogin@v1
+        with:
+          kubelogin-version: 'v0.0.25'
           
       - name: Azure Kubernetes set context
-        uses: Azure/aks-set-context@v3
+        uses: azure/aks-set-context@v3
         with: 
           # Resource Group Name
           resource-group: ${{ env.RESOURCE_GROUP }}
@@ -96,14 +98,13 @@ jobs:
           output:
             hello-world-deployment.yaml 
           
+      # Deploys application based on given manifest file
       - name: Deploys application
         uses: Azure/k8s-deploy@v4
         with:
           action: deploy
-          manifests:
+          manifests: |
             hello-world-deployment.yaml
             ${{ env.DEPLOYMENT_MANIFEST_PATH }}/hello-world-service.yaml
-          images:
+          images: |
             ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}
-			
-			
