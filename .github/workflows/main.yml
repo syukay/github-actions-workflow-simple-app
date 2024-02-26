@@ -3,6 +3,7 @@ name: Build and Deploy to Azure
 env:
   AZURE_CONTAINER_REGISTRY_NAME: "syukayacr240218"  # set this to the name of your Azure Container Registry
   AZURE_CONTAINER_REGISTRY: "syukayacr240218.azurecr.io" # Container Registry URI
+  AZURE_CONTAINER_REGISTRY_PASSWORD: "oCSV5cYlQGuNHo3lPXGv3hnS90/qwifOsPtBrCdnID+ACRDLsJrN"  
   CONTAINER_NAME: "hello-world"
   RESOURCE_GROUP: "github-actions-demo-rg"
   CLUSTER_NAME: "syukay-aks-cluster"
