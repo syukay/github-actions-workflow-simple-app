@@ -8,6 +8,9 @@ env:
   RESOURCE_GROUP: "github-actions-demo-rg"
   CLUSTER_NAME: "syukay-aks-cluster"
   DEPLOYMENT_MANIFEST_PATH: "kubernetes"
+  AZURE_CLIENT_ID: "b876527f-8e28-4842-9d34-80f07f9a9d05"
+  AZURE_TENANT_ID: "439966cb-1aa0-41de-82bb-f8490c06d7bf"
+  AZURE_SUBSCRIPTION_ID: "afa1eee0-c0b7-4b25-b225-d0e4d63b1a84"
 
 on:
   push:
@@ -62,9 +65,9 @@ jobs:
       - name: Azure login
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          client-id: ${{ env.AZURE_CLIENT_ID }}
+          tenant-id: ${{ env.AZURE_TENANT_ID }}
+          subscription-id: ${{ env.AZURE_SUBSCRIPTION_ID }}
 
       - name: Setup kubelogin
         uses: Azure/use-kubelogin@v1.2
@@ -102,5 +105,5 @@ jobs:
             ${{ env.DEPLOYMENT_MANIFEST_PATH }}/hello-world-service.yaml
           images:
             ${{ env.AZURE_CONTAINER_REGISTRY }}/${{ env.CONTAINER_NAME }}:${{ github.sha }}
-          
-        
+			
+			
